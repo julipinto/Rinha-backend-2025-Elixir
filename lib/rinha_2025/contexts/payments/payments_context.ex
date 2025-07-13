@@ -8,6 +8,10 @@ defmodule Rinha2025.Contexts.PaymentsContext do
     # Here you would typically interact with your payment processing service
     # For demonstration, we will just return the params as a mock payment
     {:ok,
-     %{id: Ecto.UUID.generate(), correlation_id: params.correlation_id, amount: params.amount}}
+     %{
+       id: Ecto.UUID.generate(),
+       correlation_id: params.correlation_id,
+       amount: params.amount_in_cents
+     }}
   end
 end

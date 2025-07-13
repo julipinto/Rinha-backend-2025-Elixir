@@ -5,9 +5,10 @@ defmodule Rinha2025.Contexts.Payments.Types.CreatePaymentPayload do
 
   use Goal
 
-  import Rinha2025.Utils.Validations.ParamsValidations, only: [traverse_errors: 1]
+  alias Rinha2025.Utils.Validations.ParamsValidations
+  alias Rinha2025.Utils.Transforms.AmountTransform
 
-  defstruct [:correlation_id, :amount]
+  defstruct [:correlation_id, :amount_in_cents]
 
   defparams :create_params do
     required(:correlationId, :string, format: :uuid)
@@ -17,14 +18,14 @@ defmodule Rinha2025.Contexts.Payments.Types.CreatePaymentPayload do
   def create(params) do
     case validate(:create_params, params) do
       {:ok, validated_params} -> {:ok, convert(validated_params)}
-      error -> traverse_errors(error)
+      error -> ParamsValidations.traverse_errors(error)
     end
   end
 
   defp convert(params) do
     %__MODULE__{
-      correlation_id: Map.get(params, :correlationId),
-      amount: Map.get(params, :amount)
+      correlation_id: params[:correlationId],
+      amount_in_cents: AmountTransform.float_to_cents(params[:amount])
     }
   end
 end
