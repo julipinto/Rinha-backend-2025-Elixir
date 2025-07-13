@@ -1,4 +1,4 @@
-defmodule Rinha2025.Data.Repositories.Payments do
+defmodule Rinha2025.Data.Repositories.PaymentsRepository do
   @moduledoc """
   Repository for managing Payment entities in the Rinha 2025 application.
   """

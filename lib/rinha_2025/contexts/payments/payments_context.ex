@@ -3,15 +3,11 @@ defmodule Rinha2025.Contexts.PaymentsContext do
   Context for handling payments in the Rinha 2025 application.
   """
   alias Rinha2025.Contexts.Payments.Types.CreatePaymentPayload
+  alias Rinha2025.Data.Repositories.PaymentsRepository
 
   def create_payment(%CreatePaymentPayload{} = params) do
-    # Here you would typically interact with your payment processing service
-    # For demonstration, we will just return the params as a mock payment
-    {:ok,
-     %{
-       id: Ecto.UUID.generate(),
-       correlation_id: params.correlation_id,
-       amount: params.amount_in_cents
-     }}
+    with {:ok, payment} <- PaymentsRepository.create_payment(params) do
+      {:ok, payment}
+    end
   end
 end
